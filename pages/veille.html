@@ -55,10 +55,10 @@
                 </p>
                 <h3 class="veille-subtitle">Outils utilisés :</h3>
                 <ul class="veille-tools-list">
-                    <li>Feedly — agrégateur de flux RSS qui me permet de regrouper les publications de mes sources en un seul endroit et de les consulter de façon hebdomadaire sans perdre de temps à les chercher individuellement.</li>
+                    <li>Feedly — agrégateur qui me permet de regrouper les publications de mes sources en un seul endroit et de les consulter de façon hebdomadaire sans perdre de temps à les chercher individuellement.</li>
                     <li>Newsletter ANSSI — je suis abonné aux publications du Centre gouvernemental de veille, d'alerte et de réponse aux attaques informatiques (CERT-FR), qui diffuse régulièrement des bulletins d'actualité sur les vulnérabilités et les bonnes pratiques de sécurisation des systèmes d'information.</li>
                     <li>Microsoft Learn & Microsoft Docs — la documentation officielle de Microsoft reste la référence principale pour tout ce qui concerne Active Directory, les politiques de sécurité et les recommandations d'architecture.</li>
-                    <li>GitHub & blogs techniques — je consulte également des dépôts et articles de praticiens (PingCastle, Sean Metcalf / ADSecurity.org) qui publient des analyses détaillées sur la sécurisation de l'Active Directory en environnement réel.</li>
+                    <li>GitHub & blogs techniques — je consulte également des dépôts et articles de praticiens (PingCastle, ADSecurity.org) qui publient des analyses détaillées sur la sécurisation de l'Active Directory en environnement réel.</li>
                 </ul>
             </section>
 
@@ -112,14 +112,9 @@
                     Le groupe Protected Users est un groupe de sécurité introduit dans Windows Server 2012 R2 qui applique automatiquement un ensemble de restrictions de sécurité renforcées aux comptes qui en sont membres. Ces restrictions incluent notamment : l'interdiction de l'authentification NTLM, l'interdiction de délégation Kerberos non contrainte, et la réduction de la durée de vie des tickets Kerberos. C'est précisément l'appartenance de mon compte à ce groupe qui a bloqué l'authentification dans Guacamole lors du stage, la version de FreeRDP utilisée ne supportant pas encore pleinement Kerberos.
                 </p>
 
-                <h3 class="veille-subtitle">Les PAW — Privileged Access Workstations</h3>
-                <p>
-                    Une PAW est un poste de travail dédié exclusivement aux tâches d'administration, physiquement et logiquement isolé du réseau utilisateur standard. Son usage est recommandé par Microsoft et l'ANSSI pour les administrateurs Tier 0 et Tier 1. Elle réduit la surface d'attaque en empêchant qu'un administrateur utilise la même machine pour naviguer sur le web, lire ses mails et gérer les contrôleurs de domaine. Au SIS 67, le projet Guacamole s'inscrivait dans cette logique : centraliser les accès d'administration depuis un bastion contrôlé, traçable et isolé, sans exposer directement les serveurs cibles.
-                </p>
-
                 <h3 class="veille-subtitle">Ce que j'en retiens</h3>
                 <p>
-                    Le modèle de Tiering n'est pas une contrainte bureaucratique — c'est une architecture de défense en profondeur. Comprendre ses principes m'a permis de mieux appréhender pourquoi certaines configurations étaient bloquées en stage, de dialoguer plus efficacement avec l'équipe système, et d'anticiper les évolutions futures du projet Guacamole. C'est exactement ce type de veille — liée à une pratique réelle — qui permet de progresser techniquement.
+                    Le modèle de Tiering n'est pas une contrainte bureaucratique — c'est une architecture de défense en profondeur. Comprendre ses principes m'a permis de mieux appréhender et d'anticiper les évolutions futures du projet Guacamole. C'est exactement ce type de veille — liée à une pratique réelle — qui permet de progresser techniquement.
                 </p>
             </section>
 
@@ -151,7 +146,6 @@
                     <article class="veille-resource-group">
                         <h3 class="veille-subtitle">Sécuriser les accès d'administration</h3>
                         <ul class="veille-resources-list">
-                            <li>Microsoft Learn — Privileged Access Workstations (PAW) : guide de déploiement d'un poste dédié à l'administration, isolé du réseau utilisateur, recommandé pour les comptes Tier 0 et Tier 1.</li>
                             <li>ANSSI — Recommandations sur l'administration sécurisée des systèmes : guide pratique sur les bastions, les flux d'administration et la traçabilité des actions d'administration.</li>
                         </ul>
                     </article>
@@ -159,7 +153,6 @@
                     <article class="veille-resource-group">
                         <h3 class="veille-subtitle">Auditer et mesurer le niveau de sécurité</h3>
                         <ul class="veille-resources-list">
-                            <li>CIS Benchmarks — Windows Server & Active Directory : référentiels de configuration sécurisée utilisés pour évaluer le durcissement d'un environnement Active Directory.</li>
                             <li>PingCastle — Documentation et rapports d'audit AD : outil open source permettant de générer un score de risque sur un domaine Active Directory et d'identifier les axes d'amélioration prioritaires.</li>
                         </ul>
                     </article>
@@ -194,14 +187,6 @@
                             Guide publié par l'Agence Nationale de la Sécurité des Systèmes d'Information, adapté au contexte français et aux organisations publiques. Recommandations pratiques sur la segmentation des privilèges, les GPO de durcissement et la gestion des comptes sensibles.
                         </p>
                         <a href="https://cyber.gouv.fr/publications/recommandations-pour-ladministration-securisee-des-si-reposant-sur-ad" target="_blank" rel="noopener noreferrer">https://cyber.gouv.fr/publications/recommandations-pour-ladministration-securisee-des-si-reposant-sur-ad</a>
-                    </article>
-
-                    <article class="veille-source-card">
-                        <h3>CIS Benchmarks — Windows Server & Active Directory</h3>
-                        <p>
-                            Référentiels de configuration sécurisée publiés par le Center for Internet Security. Utilisés comme base de comparaison pour évaluer le niveau de durcissement d'un système.
-                        </p>
-                        <a href="https://www.cisecurity.org/cis-benchmarks" target="_blank" rel="noopener noreferrer">https://www.cisecurity.org/cis-benchmarks</a>
                     </article>
 
                     <article class="veille-source-card">
@@ -244,3 +229,4 @@
     <script src="../assets/js/main.js" defer></script>
 </body>
 </html>
+
