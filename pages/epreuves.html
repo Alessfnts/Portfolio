@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Epreuve BTS : projets Studio Neptune et La Superlig autour d'infrastructures r&eacute;seau segment&eacute;es, de services syst&egrave;mes, de supervision et de s&eacute;curisation des acc&egrave;s.">
+    <title>Epreuve BTS - Studio Neptune et La Superlig - Alessandro Fuentes</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,600;700&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,600;700&display=swap"></noscript>
+    <link rel="stylesheet" href="../assets/css/Style.css">
+</head>
+<body>
+    <nav class="navbar" aria-labelledby="main-menu-title">
+        <h2 id="main-menu-title" class="visually-hidden">Menu principal</h2>
+        <div class="nav-container">
+            <a href="../index.html" class="logo-container" aria-label="Accueil Alessandro Fuentes">
+                <img src="../assets/images/logo-site.png" alt="Alessandro Fuentes" class="site-logo" width="500" height="500" decoding="async">
+            </a>
+            <ul class="nav-links" role="list">
+                <li><a href="../index.html">Accueil</a></li>
+                <li><a href="presentation.html">Ma pr&eacute;sentation</a></li>
+                <li><a href="epreuves.html" class="nav-active" aria-current="page">Epreuve BTS</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="site-main content">
+        <section class="section hero-section hero-section--compact">
+            <div class="hero-grid hero-grid--epreuves">
+                <div class="hero-copy">
+                    <p class="eyebrow">Epreuve BTS - Projet 1</p>
+                    <h1 class="hero-title hero-title--single-line">Studio Neptune</h1>
+                    <p class="lead">
+                        Studio Neptune est un studio d'enregistrement fictif bas&eacute; &agrave; Strasbourg.
+                        J'ai con&ccedil;u pour ce contexte une infrastructure compl&egrave;te sous VirtualBox,
+                        avec publication web, annuaire, messagerie, supervision et acc&egrave;s distant s&eacute;curis&eacute;.
+                    </p>
+                    <p class="lead lead-muted">
+                        L'objectif du projet est de montrer ma capacit&eacute; &agrave; structurer un SI cloisonn&eacute;,
+                        &agrave; publier un service en DMZ, &agrave; centraliser l'authentification et &agrave; superviser
+                        l'ensemble dans une logique d'exploitation professionnelle.
+                    </p>
+                    <div class="tag-row" aria-label="Technologies utilis&eacute;es">
+                        <span class="tag">pfSense</span>
+                        <span class="tag">VirtualBox</span>
+                        <span class="tag">Debian 13</span>
+                        <span class="tag">Windows Server 2025</span>
+                        <span class="tag">HAProxy</span>
+                        <span class="tag">MariaDB</span>
+                        <span class="tag">Zabbix</span>
+                        <span class="tag">OpenVPN</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-divider">
+            <div class="section-heading">
+                <p class="eyebrow">Vue d'ensemble</p>
+                <h2 class="section-title section-title--single-line">Architecture globale</h2>
+                <p class="section-intro">
+                    L'infrastructure repose sur pfSense comme routeur et pare-feu central. Le trafic externe
+                    est publi&eacute; vers une DMZ, le front web est r&eacute;parti sur deux serveurs, tandis que les
+                    services internes restent isol&eacute;s dans le LAN.
+                </p>
+            </div>
+
+            <div class="kpi-grid" role="list">
+                <article class="kpi-card" role="listitem">
+                    <span class="kpi-value">4</span>
+                    <span class="kpi-label">zones r&eacute;seau distinctes : WAN, DMZ, WWW et LAN</span>
+                </article>
+                <article class="kpi-card" role="listitem">
+                    <span class="kpi-value">2</span>
+                    <span class="kpi-label">serveurs web en r&eacute;partition de charge via HAProxy</span>
+                </article>
+                <article class="kpi-card" role="listitem">
+                    <span class="kpi-value">6</span>
+                    <span class="kpi-label">h&ocirc;tes supervis&eacute;s en continu avec Zabbix 7.0</span>
+                </article>
+                <article class="kpi-card" role="listitem">
+                    <span class="kpi-value">1</span>
+                    <span class="kpi-label">cha&icirc;ne d'acc&egrave;s VPN li&eacute;e &agrave; RADIUS, LDAPS et Active Directory</span>
+                </article>
+            </div>
+
+            <div class="topology-panel card-glow-panel">
+                <div class="flow-track" role="list" aria-label="Chemin principal du trafic">
+                    <article class="flow-node" role="listitem">
+                        <p class="flow-zone">Acc&egrave;s</p>
+                        <h3>WAN / Internet</h3>
+                        <p>NAT VirtualBox pour simuler l'ext&eacute;rieur et publication des ports web et VPN.</p>
+                    </article>
+                    <article class="flow-node flow-node--core" role="listitem">
+                        <p class="flow-zone">Pare-feu</p>
+                        <h3>pfSense</h3>
+                        <p>Routage inter-zones, NAT, filtrage par interface et h&eacute;bergement d'OpenVPN.</p>
+                    </article>
+                    <article class="flow-node" role="listitem">
+                        <p class="flow-zone">DMZ</p>
+                        <h3>HAProxy</h3>
+                        <p>Terminaison SSL, redirection HTTP vers HTTPS et round robin vers les backends.</p>
+                    </article>
+                    <article class="flow-node" role="listitem">
+                        <p class="flow-zone">WWW</p>
+                        <h3>www1 / www2</h3>
+                        <p>Apache, PHP et MariaDB avec r&eacute;plication Master/Master sur la base <code>neptune_db</code>.</p>
+                    </article>
+                    <article class="flow-node" role="listitem">
+                        <p class="flow-zone">LAN</p>
+                        <h3>Services internes</h3>
+                        <p>Active Directory, DNS, DHCP, mail, supervision Zabbix, FreeRADIUS et postes clients.</p>
+                    </article>
+                </div>
+                <p class="topology-caption">
+                    L'acc&egrave;s distant suit une seconde cha&icirc;ne : OpenVPN sur pfSense, authentification RADIUS,
+                    interrogation LDAPS du contr&ocirc;leur de domaine et validation finale par appartenance au groupe
+                    <code>GRP_VPN</code>.
+                </p>
+            </div>
+        </section>
+
+        <section class="section section-divider">
+            <div class="section-heading">
+                <p class="eyebrow">Segmentation r&eacute;seau</p>
+                <h2 class="section-title section-title--single-line">Segmentation r&eacute;seau</h2>
+                <p class="section-intro">
+                    Le d&eacute;coupage logique de l'environnement permet de s&eacute;parer la publication web,
+                    les services applicatifs et les services internes sensibles. Chaque zone a des flux cibl&eacute;s
+                    et aucun acc&egrave;s large n'est autoris&eacute; par d&eacute;faut.
+                </p>
+            </div>
+
+            <div class="zone-grid" role="list">
+                <article class="zone-card" role="listitem">
+                    <p class="zone-name">WAN</p>
+                    <h3>Simulation d'internet</h3>
+                    <p class="zone-address">Interface DHCP sur NAT VirtualBox</p>
+                    <ul class="detail-list" role="list">
+                        <li>Publication de <code>80</code> et <code>443</code> vers HAProxy.</li>
+                        <li>Publication de <code>1194/UDP</code> pour OpenVPN.</li>
+                        <li>Blocage de tout autre flux entrant.</li>
+                    </ul>
+                </article>
+
+                <article class="zone-card" role="listitem">
+                    <p class="zone-name">DMZ</p>
+                    <h3>172.16.0.0/24</h3>
+                    <p class="zone-address">Point d'exposition du service web</p>
+                    <ul class="detail-list" role="list">
+                        <li>HAProxy re&ccedil;oit le trafic public en HTTPS.</li>
+                        <li>Seul le port <code>80/TCP</code> vers les backends web est autoris&eacute;.</li>
+                        <li>Acc&egrave;s DMZ vers LAN bloqu&eacute; pour conserver l'isolation.</li>
+                    </ul>
+                </article>
+
+                <article class="zone-card" role="listitem">
+                    <p class="zone-name">WWW</p>
+                    <h3>192.168.1.0/24</h3>
+                    <p class="zone-address">Plateforme web r&eacute;partie sur deux n&oelig;uds</p>
+                    <ul class="detail-list" role="list">
+                        <li><code>www1</code> et <code>www2</code> h&eacute;bergent le site vitrine.</li>
+                        <li>R&eacute;plication MariaDB Master/Master sur <code>3306</code>.</li>
+                        <li>Acc&egrave;s direct au LAN interdit pour limiter les mouvements lat&eacute;raux.</li>
+                    </ul>
+                </article>
+
+                <article class="zone-card" role="listitem">
+                    <p class="zone-name">LAN</p>
+                    <h3>192.168.2.0/24</h3>
+                    <p class="zone-address">Services d'administration et postes utilisateurs</p>
+                    <ul class="detail-list" role="list">
+                        <li>Active Directory, DNS, DHCP, mail, Zabbix et FreeRADIUS.</li>
+                        <li>Plage DHCP pour les clients : <code>192.168.2.50</code> &agrave; <code>192.168.2.70</code>.</li>
+                        <li>Acc&egrave;s VPN vers LAN autoris&eacute; uniquement pour le sous-r&eacute;seau <code>10.8.0.0/24</code>.</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="section section-divider">
+            <div class="section-heading">
+                <p class="eyebrow">Services d&eacute;ploy&eacute;s</p>
+                <h2 class="section-title section-title--single-line">Services cl&eacute;s</h2>
+                <p class="section-intro">
+                    J'ai retenu ici les composants les plus significatifs du projet afin de mettre en avant
+                    la logique d'architecture, la s&eacute;curit&eacute; des acc&egrave;s et l'exploitabilit&eacute; globale de l'environnement.
+                </p>
+            </div>
+
+            <div class="service-grid" role="list">
+                <article class="service-card" role="listitem">
+                    <span class="service-type">P&eacute;rim&egrave;tre</span>
+                    <h3>pfSense et filtrage inter-zones</h3>
+                    <p>pfSense est le point central du projet : il assure le routage, le NAT, les redirections de ports et la politique de filtrage.</p>
+                    <ul class="detail-list" role="list">
+                        <li>Quatre interfaces : WAN, DMZ, WWW et LAN.</li>
+                        <li>Politique de s&eacute;curit&eacute; restrictive par d&eacute;faut.</li>
+                        <li>DHCP d&eacute;sactiv&eacute; sur le LAN au profit du serveur AD.</li>
+                    </ul>
+                </article>
+
+                <article class="service-card" role="listitem">
+                    <span class="service-type">Publication</span>
+                    <h3>HAProxy et terminaison HTTPS</h3>
+                    <p>Le serveur <code>hap</code> en DMZ centralise la publication du site vitrine et absorbe les acc&egrave;s entrants depuis l'ext&eacute;rieur.</p>
+                    <ul class="detail-list" role="list">
+                        <li>Certificat SSL auto-sign&eacute; et terminaison TLS.</li>
+                        <li>Redirection HTTP vers HTTPS en <code>301</code>.</li>
+                        <li>Health checks toutes les deux secondes et statistiques d'exploitation.</li>
+                    </ul>
+                </article>
+
+                <article class="service-card" role="listitem">
+                    <span class="service-type">Front web</span>
+                    <h3>www1 / www2 et r&eacute;plication MariaDB</h3>
+                    <p>La couche applicative est r&eacute;partie sur deux serveurs Debian avec Apache, PHP et MariaDB afin d'introduire de la redondance.</p>
+                    <ul class="detail-list" role="list">
+                        <li>Le site affiche le nom du serveur pour visualiser l'alternance.</li>
+                        <li>VirtualHost configur&eacute; pour <code>www.neptune.lan</code>.</li>
+                        <li>Base <code>neptune_db</code> r&eacute;pliqu&eacute;e en Master/Master.</li>
+                    </ul>
+                </article>
+
+                <article class="service-card" role="listitem">
+                    <span class="service-type">Identit&eacute;</span>
+                    <h3>Active Directory, DNS, DHCP et GPO</h3>
+                    <p>Le serveur <code>srvAD</code> structure l'identit&eacute; et l'administration du parc autour du domaine <code>neptune.local</code>.</p>
+                    <ul class="detail-list" role="list">
+                        <li>Cinq utilisateurs r&eacute;partis dans des OU m&eacute;tiers.</li>
+                        <li>Groupe de s&eacute;curit&eacute; <code>GRP_VPN</code> pour contr&ocirc;ler l'acc&egrave;s distant.</li>
+                        <li>Deux GPO : fond d'&eacute;cran impos&eacute; et blocage USB hors administrateur.</li>
+                    </ul>
+                </article>
+
+                <article class="service-card" role="listitem">
+                    <span class="service-type">Communication</span>
+                    <h3>Messagerie interne et webmail</h3>
+                    <p>Le serveur mail assure la circulation interne des messages et sert aussi de relais aux alertes d'exploitation.</p>
+                    <ul class="detail-list" role="list">
+                        <li>Postfix et Dovecot en format Maildir.</li>
+                        <li>Roundcube disponible pour l'usage webmail.</li>
+                        <li>Comptes <code>alice</code>, <code>bob</code> et <code>admin.si</code> op&eacute;rationnels.</li>
+                    </ul>
+                </article>
+
+                <article class="service-card" role="listitem">
+                    <span class="service-type">Supervision</span>
+                    <h3>Zabbix 7.0 et alerting</h3>
+                    <p>La supervision apporte une vision centralis&eacute;e de l'&eacute;tat de sant&eacute; de l'infrastructure et une r&eacute;action plus rapide aux incidents.</p>
+                    <ul class="detail-list" role="list">
+                        <li>Six h&ocirc;tes supervis&eacute;s via agents sur le port <code>10050</code>.</li>
+                        <li>Dashboard d&eacute;di&eacute; avec h&ocirc;tes, probl&egrave;mes et graphes CPU/RAM.</li>
+                        <li>Alertes envoy&eacute;es par email &agrave; <code>admin@neptune.local</code>.</li>
+                    </ul>
+                </article>
+
+                <article class="service-card" role="listitem">
+                    <span class="service-type">Acc&egrave;s s&eacute;curis&eacute;</span>
+                    <h3>OpenVPN, FreeRADIUS et LDAPS</h3>
+                    <p>L'administration distante repose sur une cha&icirc;ne d'authentification multi-services qui relie pfSense, FreeRADIUS et l'Active Directory.</p>
+                    <ul class="detail-list" role="list">
+                        <li>OpenVPN en mode Remote Access SSL/TLS + authentification utilisateur.</li>
+                        <li>FreeRADIUS interroge l'AD en LDAPS sur le port <code>636</code>.</li>
+                        <li>Seul <code>admin.si</code>, membre du groupe <code>GRP_VPN</code>, obtient un acc&egrave;s autoris&eacute;.</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="section section-divider">
+            <div class="section-heading">
+                <p class="eyebrow">Inventaire synth&eacute;tique</p>
+                <h2 class="section-title section-title--single-line">Inventaire des machines</h2>
+                <p class="section-intro">
+                    Cet inventaire reprend les h&ocirc;tes les plus importants du projet avec leur adresse,
+                    leur syst&egrave;me et leur responsabilit&eacute; dans l'architecture globale.
+                </p>
+            </div>
+
+            <div class="host-grid" role="list">
+                <article class="host-card" role="listitem">
+                    <p class="host-name">pfSense</p>
+                    <p class="host-ip">WAN DHCP / DMZ 172.16.0.254 / WWW 192.168.1.254 / LAN 192.168.2.254</p>
+                    <p class="host-os">pfSense CE</p>
+                    <p class="host-role">Pare-feu central, routage, NAT et OpenVPN.</p>
+                </article>
+
+                <article class="host-card" role="listitem">
+                    <p class="host-name">hap</p>
+                    <p class="host-ip">172.16.0.2</p>
+                    <p class="host-os">Debian 13 Trixie</p>
+                    <p class="host-role">HAProxy, terminaison SSL et r&eacute;partition de charge.</p>
+                </article>
+
+                <article class="host-card" role="listitem">
+                    <p class="host-name">www1</p>
+                    <p class="host-ip">192.168.1.1</p>
+                    <p class="host-os">Debian 13 Trixie</p>
+                    <p class="host-role">Apache, PHP et MariaDB, premier n&oelig;ud du front web.</p>
+                </article>
+
+                <article class="host-card" role="listitem">
+                    <p class="host-name">www2</p>
+                    <p class="host-ip">192.168.1.2</p>
+                    <p class="host-os">Debian 13 Trixie</p>
+                    <p class="host-role">Apache, PHP et MariaDB, second n&oelig;ud du front web.</p>
+                </article>
+
+                <article class="host-card" role="listitem">
+                    <p class="host-name">srvAD</p>
+                    <p class="host-ip">192.168.2.10</p>
+                    <p class="host-os">Windows Server 2025</p>
+                    <p class="host-role">Active Directory, DNS, DHCP, utilisateurs, groupes et GPO.</p>
+                </article>
+
+                <article class="host-card" role="listitem">
+                    <p class="host-name">zabbix</p>
+                    <p class="host-ip">192.168.2.11</p>
+                    <p class="host-os">Debian 13 Trixie</p>
+                    <p class="host-role">Supervision, dashboard et notifications d'alerte.</p>
+                </article>
+
+                <article class="host-card" role="listitem">
+                    <p class="host-name">mail</p>
+                    <p class="host-ip">192.168.2.12</p>
+                    <p class="host-os">Debian 13 Trixie</p>
+                    <p class="host-role">Postfix, Dovecot, Roundcube et bo&icirc;tes internes.</p>
+                </article>
+
+                <article class="host-card" role="listitem">
+                    <p class="host-name">radius</p>
+                    <p class="host-ip">192.168.2.13</p>
+                    <p class="host-os">Debian 13 Trixie</p>
+                    <p class="host-role">FreeRADIUS et liaison LDAPS avec l'Active Directory.</p>
+                </article>
+
+                <article class="host-card" role="listitem">
+                    <p class="host-name">Clients</p>
+                    <p class="host-ip">192.168.2.50 &agrave; 192.168.2.70</p>
+                    <p class="host-os">Windows 10 / 11</p>
+                    <p class="host-role">Postes utilisateurs joints au domaine, dont un client r&eacute;serv&eacute; en <code>.50</code>.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section section-divider">
+            <div class="section-heading">
+                <p class="eyebrow">Bilan technique</p>
+                <h2 class="section-title section-title--single-line">R&eacute;sultats obtenus</h2>
+                <p class="section-intro">
+                    Studio Neptune me permet d'illustrer des comp&eacute;tences compl&eacute;mentaires : conception r&eacute;seau,
+                    administration syst&egrave;me, identit&eacute;, supervision, publication de service et s&eacute;curisation des acc&egrave;s.
+                </p>
+            </div>
+
+            <div class="result-grid" role="list">
+                <article class="result-card" role="listitem">
+                    <span class="result-badge">Valid&eacute;</span>
+                    <h3>Publication web en HTTPS</h3>
+                    <p>Le site vitrine est accessible depuis l'h&ocirc;te via HAProxy avec redirection propre vers HTTPS.</p>
+                </article>
+
+                <article class="result-card" role="listitem">
+                    <span class="result-badge">Valid&eacute;</span>
+                    <h3>R&eacute;partition de charge visible</h3>
+                    <p>L'alternance entre <code>www1</code> et <code>www2</code> confirme le bon fonctionnement du round robin.</p>
+                </article>
+
+                <article class="result-card" role="listitem">
+                    <span class="result-badge">Valid&eacute;</span>
+                    <h3>R&eacute;plication MariaDB op&eacute;rationnelle</h3>
+                    <p>Les deux serveurs web partagent une base synchronis&eacute;e pour assurer la coh&eacute;rence des donn&eacute;es.</p>
+                </article>
+
+                <article class="result-card" role="listitem">
+                    <span class="result-badge">Valid&eacute;</span>
+                    <h3>Messagerie et alertes exploitables</h3>
+                    <p>Les &eacute;changes internes entre utilisateurs et les notifications Zabbix sont correctement re&ccedil;us dans Roundcube.</p>
+                </article>
+
+                <article class="result-card" role="listitem">
+                    <span class="result-badge">Valid&eacute;</span>
+                    <h3>Supervision centralis&eacute;e</h3>
+                    <p>Tous les h&ocirc;tes suivis remontent correctement dans Zabbix avec un tableau de bord unique.</p>
+                </article>
+
+                <article class="result-card" role="listitem">
+                    <span class="result-badge">Valid&eacute;</span>
+                    <h3>Contr&ocirc;le d'acc&egrave;s VPN</h3>
+                    <p>L'acc&egrave;s distant est limit&eacute; &agrave; <code>admin.si</code> gr&acirc;ce au groupe AD et &agrave; l'authentification RADIUS.</p>
+                </article>
+
+                <article class="result-card" role="listitem">
+                    <span class="result-badge">Valid&eacute;</span>
+                    <h3>Administration du domaine</h3>
+                    <p>Le domaine <code>neptune.local</code> est fonctionnel avec utilisateurs, OU, DNS, DHCP et politiques de groupe appliqu&eacute;es.</p>
+                </article>
+
+                <article class="result-card" role="listitem">
+                    <span class="result-badge">Valid&eacute;</span>
+                    <h3>Postes mieux encadr&eacute;s</h3>
+                    <p>Le fond d'&eacute;cran est impos&eacute; sur le domaine et le blocage USB est actif pour tous les utilisateurs hors administration.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section section-divider">
+            <div class="hero-grid hero-grid--epreuves">
+                <div class="hero-copy">
+                    <p class="eyebrow">Epreuve BTS - Projet 2</p>
+                    <h2 class="hero-title hero-title--single-line">La Superlig</h2>
+                    <p class="section-intro">
+                        La Superlig est une ligue sportive r&eacute;gionale fictive situ&eacute;e &agrave; Strasbourg-Neudorf.
+                        Le projet consiste &agrave; concevoir une infrastructure centralis&eacute;e capable de servir la direction,
+                        la comp&eacute;tition, l'administratif et l'informatique dans un environnement virtualis&eacute; sous VirtualBox.
+                    </p>
+                    <p class="section-intro">
+                        J'y ai regroup&eacute; l'annuaire, le DHCP, un portail intranet, un site public en DMZ,
+                        la supervision Zabbix, la gestion de parc via GLPI ainsi qu'une logique de partage de fichiers
+                        par groupes de s&eacute;curit&eacute; et droits NTFS, avec une haute disponibilit&eacute; pfSense
+                        finalis&eacute;e via CARP et une interface d&eacute;di&eacute;e <code>pfsync</code>.
+                    </p>
+                    <div class="tag-row" aria-label="Technologies utilis&eacute;es pour La Superlig">
+                        <span class="tag">pfSense 2.8.1</span>
+                        <span class="tag">Windows Server 2025</span>
+                        <span class="tag">Debian 13</span>
+                        <span class="tag">GLPI</span>
+                        <span class="tag">Zabbix</span>
+                        <span class="tag">AD CS</span>
+                        <span class="tag">LDAPS</span>
+                        <span class="tag">CARP</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-divider">
+            <div class="section-heading">
+                <p class="eyebrow">Vue d'ensemble</p>
+                <h2 class="section-title section-title--single-line">Architecture globale</h2>
+                <p class="section-intro">
+                    L'architecture s'appuie sur un couple pfSense en haute disponibilit&eacute; comme point de passage
+                    logique entre le r&eacute;seau du lyc&eacute;e, le LAN interne et la DMZ. Cette organisation permet
+                    d'exposer un site public sans ouvrir d'acc&egrave;s direct vers les ressources internes de l'association.
+                </p>
+            </div>
+
+            <div class="kpi-grid" role="list">
+                <article class="kpi-card" role="listitem">
+                    <span class="kpi-value">3</span>
+                    <span class="kpi-label">zones r&eacute;seau : WAN, LAN et DMZ</span>
+                </article>
+                <article class="kpi-card" role="listitem">
+                    <span class="kpi-value">2</span>
+                    <span class="kpi-label">pare-feu pfSense synchronis&eacute;s en CARP pour &eacute;viter le SPOF</span>
+                </article>
+                <article class="kpi-card" role="listitem">
+                    <span class="kpi-value">5</span>
+                    <span class="kpi-label">h&ocirc;tes supervis&eacute;s via Zabbix sur le LAN et la DMZ</span>
+                </article>
+                <article class="kpi-card" role="listitem">
+                    <span class="kpi-value">4</span>
+                    <span class="kpi-label">espaces de partage pilot&eacute;s par des droits NTFS m&eacute;tier</span>
+                </article>
+            </div>
+
+            <div class="topology-panel card-glow-panel">
+                <div class="flow-track flow-track--superlig" role="list" aria-label="Architecture logique La Superlig">
+                    <article class="flow-node" role="listitem">
+                        <p class="flow-zone">Acc&egrave;s</p>
+                        <h3>WAN / Lyc&eacute;e</h3>
+                        <p>Le WAN obtient son adresse en DHCP et simule l'acc&egrave;s internet pour le site public.</p>
+                    </article>
+                    <article class="flow-node flow-node--core" role="listitem">
+                        <p class="flow-zone">Pare-feu</p>
+                        <h3>pfSense MASTER / BACKUP</h3>
+                        <p>Cluster CARP avec VIP LAN et DMZ, synchronis&eacute; sur une interface <code>pfsync</code> d&eacute;di&eacute;e.</p>
+                    </article>
+                    <article class="flow-node" role="listitem">
+                        <p class="flow-zone">DMZ</p>
+                        <h3>web-dmz</h3>
+                        <p>Publication du site public <code>www.superlig.lan</code> sur <code>192.168.60.10</code>.</p>
+                    </article>
+                    <article class="flow-node" role="listitem">
+                        <p class="flow-zone">LAN</p>
+                        <h3>Services internes</h3>
+                        <p>AD, DHCP, GLPI, Zabbix, intranet et partages de fichiers restent en zone interne.</p>
+                    </article>
+                    <article class="flow-node" role="listitem">
+                        <p class="flow-zone">Poste</p>
+                        <h3>C1-Win</h3>
+                        <p>Client de validation joint au domaine pour tester AD, GPO, GLPI, partages et supervision.</p>
+                    </article>
+                </div>
+                <p class="topology-caption">
+                    Deux points distinguent particuli&egrave;rement ce projet : la haute disponibilit&eacute; du pare-feu avec
+                    <code>pfsync</code> sur les adresses <code>10.0.0.1</code> et <code>10.0.0.2</code>, et la gestion
+                    fine des acc&egrave;s aux partages via les groupes AD et les permissions NTFS. En parall&egrave;le, GLPI
+                    s'appuie sur LDAPS et Zabbix supervise aussi le serveur publi&eacute; en DMZ.
+                </p>
+            </div>
+        </section>
+
+        <section class="section section-divider">
+            <div class="section-heading">
+                <p class="eyebrow">Segmentation r&eacute;seau</p>
+                <h2 class="section-title section-title--single-line">Flux autoris&eacute;s</h2>
+                <p class="section-intro">
+                    Le projet repose sur un filtrage tr&egrave;s lisible : publication contr&ocirc;l&eacute;e du site web, acc&egrave;s
+                    depuis le LAN vers les ressources n&eacute;cessaires et blocage prioritaire de toute tentative de retour
+                    de la DMZ vers le LAN en dehors des flux techniques pr&eacute;vus.
+                </p>
+            </div>
+
+            <div class="zone-grid zone-grid--three" role="list">
+                <article class="zone-card" role="listitem">
+                    <p class="zone-name">WAN</p>
+                    <h3>R&eacute;seau externe simul&eacute;</h3>
+                    <p class="zone-address">Interface WAN en DHCP sur le r&eacute;seau du lyc&eacute;e</p>
+                    <ul class="detail-list" role="list">
+                        <li>NAT du port <code>80</code> vers <code>192.168.60.10</code>.</li>
+                        <li>Aucun acc&egrave;s direct du WAN vers le LAN.</li>
+                        <li>R&ocirc;le principal : exposition du site public.</li>
+                    </ul>
+                </article>
+
+                <article class="zone-card" role="listitem">
+                    <p class="zone-name">LAN</p>
+                    <h3>192.168.50.0/24</h3>
+                    <p class="zone-address">Serveurs internes, poste client et annuaire</p>
+                    <ul class="detail-list" role="list">
+                        <li>Communication vers la DMZ autoris&eacute;e sur le port <code>80</code>.</li>
+                        <li>Acc&egrave;s &agrave; la supervision DMZ autoris&eacute; sur <code>10050</code>.</li>
+                        <li>Zone principale pour AD, GLPI, Zabbix, intranet et partages.</li>
+                    </ul>
+                </article>
+
+                <article class="zone-card" role="listitem">
+                    <p class="zone-name">DMZ</p>
+                    <h3>192.168.60.0/24</h3>
+                    <p class="zone-address">Services publi&eacute;s avec isolement renforc&eacute;</p>
+                    <ul class="detail-list" role="list">
+                        <li>Blocage prioritaire de tout acc&egrave;s DMZ vers LAN.</li>
+                        <li>Exception contr&ocirc;l&eacute;e pour Zabbix actif sur <code>10051</code>.</li>
+                        <li>Sorties vers internet autoris&eacute;es sur <code>80</code>, <code>443</code> et <code>53</code>.</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="section section-divider">
+            <div class="section-heading">
+                <p class="eyebrow">Services d&eacute;ploy&eacute;s</p>
+                <h2 class="section-title section-title--single-line">Services distinctifs</h2>
+                <p class="section-intro">
+                    J'ai s&eacute;lectionn&eacute; les briques qui montrent le mieux la coh&eacute;rence du projet :
+                    cloisonnement r&eacute;seau, annuaire, certificats, supervision, portail interne, site public et
+                    gestion centralis&eacute;e des ressources.
+                </p>
+            </div>
+
+            <div class="service-grid" role="list">
+                <article class="service-card" role="listitem">
+                    <span class="service-type">P&eacute;rim&egrave;tre</span>
+                    <h3>Cluster pfSense, CARP et pfsync</h3>
+                    <p>Le projet repose sur un couple pfSense en haute disponibilit&eacute; afin d'&eacute;viter qu'un seul pare-feu devienne un point de panne critique.</p>
+                    <ul class="detail-list" role="list">
+                        <li>Mode MASTER / BACKUP avec VIP LAN <code>192.168.50.1</code> et VIP DMZ <code>192.168.60.1</code>.</li>
+                        <li>Interface <code>pfsync</code> d&eacute;di&eacute;e dans VirtualBox et sur pfSense avec <code>10.0.0.1</code> et <code>10.0.0.2</code>.</li>
+                        <li>Synchronisation des &eacute;tats TCP via <code>pfsync</code> et synchronisation de configuration via XMLRPC.</li>
+                    </ul>
+                </article>
+
+                <article class="service-card" role="listitem">
+                    <span class="service-type">Identit&eacute;</span>
+                    <h3>srvAD, DNS et AD CS</h3>
+                    <p>Le contr&ocirc;leur de domaine Windows Server 2025 structure l'identit&eacute; de l'organisation et sert aussi d'autorit&eacute; de certification.</p>
+                    <ul class="detail-list" role="list">
+                        <li>Domaine <code>superlig.lan</code> et NetBIOS <code>SUPERLIG</code>.</li>
+                        <li>AD CS d&eacute;ploy&eacute; pour le certificat utilis&eacute; par LDAPS.</li>
+                        <li>DNS autoritaire avec redirecteur vers <code>192.168.50.254</code>.</li>
+                    </ul>
+                </article>
+
+                <article class="service-card" role="listitem">
+                    <span class="service-type">Adressage</span>
+                    <h3>srvDHCP sous Debian 13</h3>
+                    <p>Le service DHCP est externalis&eacute; sur une machine Debian afin de s&eacute;parer l'adressage IP du contr&ocirc;leur de domaine.</p>
+                    <ul class="detail-list" role="list">
+                        <li>Plage distribu&eacute;e de <code>192.168.50.100</code> &agrave; <code>192.168.50.150</code>.</li>
+                        <li>Passerelle <code>.254</code> et DNS <code>192.168.50.10</code>.</li>
+                        <li>R&eacute;servation DHCP pour <code>C1-Win</code> en <code>192.168.50.100</code>.</li>
+                    </ul>
+                </article>
+
+                <article class="service-card" role="listitem">
+                    <span class="service-type">Parc</span>
+                    <h3>GLPI synchronis&eacute; en LDAPS</h3>
+                    <p>GLPI sert &agrave; la fois de solution de ticketing et de gestion de parc, en s'appuyant sur l'annuaire Active Directory.</p>
+                    <ul class="detail-list" role="list">
+                        <li>Synchronisation via <code>ldaps://192.168.50.10:636</code>.</li>
+                        <li>Certificat AD CS export&eacute; puis import&eacute; dans Debian.</li>
+                        <li>FusionInventory install&eacute; sur <code>srvAD</code> et <code>C1-Win</code>.</li>
+                    </ul>
+                </article>
+
+                <article class="service-card" role="listitem">
+                    <span class="service-type">Supervision</span>
+                    <h3>Zabbix sur LAN et DMZ</h3>
+                    <p>La supervision couvre aussi bien les services internes que le serveur public situ&eacute; en DMZ, avec r&egrave;gles sp&eacute;cifiques sur pfSense.</p>
+                    <ul class="detail-list" role="list">
+                        <li>Cinq h&ocirc;tes supervis&eacute;s.</li>
+                        <li>Triggers configur&eacute;s sur <code>srvAD</code> pour CPU et espace disque.</li>
+                        <li>Ouverture des ports <code>10050</code> et <code>10051</code> pour le lien avec la DMZ.</li>
+                    </ul>
+                </article>
+
+                <article class="service-card" role="listitem">
+                    <span class="service-type">Web</span>
+                    <h3>Intranet et site public</h3>
+                    <p>Le projet dissocie clairement les usages internes et externes gr&acirc;ce &agrave; deux serveurs web distincts et positionn&eacute;s dans des zones diff&eacute;rentes.</p>
+                    <ul class="detail-list" role="list">
+                        <li><code>intranet.superlig.lan</code> accessible en LAN uniquement.</li>
+                        <li><code>www.superlig.lan</code> expos&eacute; dans la DMZ.</li>
+                        <li>Architecture pens&eacute;e pour limiter la surface d'exposition.</li>
+                    </ul>
+                </article>
+
+                <article class="service-card" role="listitem">
+                    <span class="service-type">Acc&egrave;s</span>
+                    <h3>Partages SMB et droits NTFS d&eacute;taill&eacute;s</h3>
+                    <p>Le partage <code>\\srvAD\Partages</code> s'appuie sur une logique simple c&ocirc;t&eacute; publication, mais sur un contr&ocirc;le fin des acc&egrave;s via les permissions NTFS.</p>
+                    <ul class="detail-list" role="list">
+                        <li>Le lecteur <code>P:</code> est mapp&eacute; par GPO, mais l'acc&egrave;s r&eacute;el d&eacute;pend des groupes et des ACL NTFS.</li>
+                        <li><code>Direction</code>, <code>Competition</code> et <code>Administratif</code> disposent chacun de leur dossier en modification, avec des lectures transverses l&agrave; o&ugrave; c'est utile.</li>
+                        <li><code>Public</code> reste en lecture pour les utilisateurs du domaine, tandis que <code>admin.si</code> conserve le contr&ocirc;le total sur toute l'arborescence.</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="section section-divider">
+            <div class="section-heading">
+                <p class="eyebrow">Points diff&eacute;renciants</p>
+                <h2 class="section-title section-title--single-line">Points diff&eacute;renciants</h2>
+                <p class="section-intro">
+                    Deux &eacute;l&eacute;ments ressortent particuli&egrave;rement ici : la haute disponibilit&eacute; r&eacute;seau avec un
+                    couple pfSense complet en CARP, et la gestion des partages par permissions NTFS pour refl&eacute;ter
+                    les besoins m&eacute;tiers de chaque service.
+                </p>
+            </div>
+
+            <div class="result-grid" role="list">
+                <article class="result-card" role="listitem">
+                    <span class="result-badge result-badge--info">CARP</span>
+                    <h3>Haute disponibilit&eacute; pfSense finalis&eacute;e</h3>
+                    <p>Le pare-feu n'est plus un &eacute;l&eacute;ment unique : un n&oelig;ud MASTER et un n&oelig;ud BACKUP assurent la continuit&eacute; de service via CARP.</p>
+                </article>
+
+                <article class="result-card" role="listitem">
+                    <span class="result-badge result-badge--info">pfsync</span>
+                    <h3>Interface d&eacute;di&eacute;e de synchronisation</h3>
+                    <p>Une interface suppl&eacute;mentaire a &eacute;t&eacute; cr&eacute;&eacute;e dans VirtualBox et sur pfSense pour <code>pfsync</code>, avec les adresses <code>10.0.0.1</code> et <code>10.0.0.2</code>.</p>
+                </article>
+
+                <article class="result-card" role="listitem">
+                    <span class="result-badge result-badge--info">VIP</span>
+                    <h3>Bascule r&eacute;seau transparente</h3>
+                    <p>Les VIP <code>192.168.50.1</code> pour le LAN et <code>192.168.60.1</code> pour la DMZ servent de points de passage logiques et facilitent la reprise par le n&oelig;ud de secours.</p>
+                </article>
+
+                <article class="result-card" role="listitem">
+                    <span class="result-badge result-badge--info">NTFS</span>
+                    <h3>Droits de modification par service</h3>
+                    <p>Chaque dossier m&eacute;tier donne l'&eacute;criture uniquement au groupe concern&eacute;, tout en laissant &agrave; l'informatique un contr&ocirc;le total pour l'administration.</p>
+                </article>
+
+                <article class="result-card" role="listitem">
+                    <span class="result-badge result-badge--info">Acc&egrave;s</span>
+                    <h3>Lecture transversale et restrictions cibl&eacute;es</h3>
+                    <p>La direction peut consulter certains dossiers des autres services, alors que le stagiaire reste limit&eacute; au dossier <code>Public</code> en lecture seule.</p>
+                </article>
+
+                <article class="result-card" role="listitem">
+                    <span class="result-badge result-badge--info">GPO</span>
+                    <h3>Mapping du partage coh&eacute;rent avec les ACL</h3>
+                    <p>Le lecteur <code>P:</code> distribu&eacute; par GPO donne un point d'entr&eacute;e unique, mais c'est bien la matrice NTFS qui d&eacute;termine ce que chaque utilisateur peut voir ou modifier.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section section-divider">
+            <div class="section-heading">
+                <p class="eyebrow">Inventaire synth&eacute;tique</p>
+                <h2 class="section-title section-title--single-line">Inventaire des machines</h2>
+                <p class="section-intro">
+                    L'infrastructure s'appuie sur les serveurs m&eacute;tiers du LAN, le serveur publi&eacute; en DMZ
+                    et un bin&ocirc;me pfSense en haute disponibilit&eacute; pour le r&ocirc;le de pare-feu.
+                </p>
+            </div>
+
+            <div class="host-grid" role="list">
+                <article class="host-card" role="listitem">
+                    <p class="host-name">pfSense MASTER</p>
+                    <p class="host-ip">WAN DHCP / LAN 192.168.50.254 / DMZ 192.168.60.254 / pfsync 10.0.0.1</p>
+                    <p class="host-os">pfSense 2.8.1</p>
+                    <p class="host-role">N&oelig;ud principal du cluster CARP, NAT du site public et synchronisation de configuration.</p>
+                </article>
+
+                <article class="host-card" role="listitem">
+                    <p class="host-name">pfSense BACKUP</p>
+                    <p class="host-ip">LAN 192.168.50.253 / DMZ 192.168.60.253 / pfsync 10.0.0.2</p>
+                    <p class="host-os">pfSense 2.8.1</p>
+                    <p class="host-role">N&oelig;ud de secours synchronis&eacute; via XMLRPC et <code>pfsync</code> pour reprendre les VIP en cas de bascule.</p>
+                </article>
+
+                <article class="host-card" role="listitem">
+                    <p class="host-name">srvAD</p>
+                    <p class="host-ip">192.168.50.10</p>
+                    <p class="host-os">Windows Server 2025</p>
+                    <p class="host-role">AD DS, DNS et AD CS pour le domaine <code>superlig.lan</code>.</p>
+                </article>
+
+                <article class="host-card" role="listitem">
+                    <p class="host-name">srvDHCP</p>
+                    <p class="host-ip">192.168.50.11</p>
+                    <p class="host-os">Debian 13</p>
+                    <p class="host-role">Distribution DHCP et r&eacute;servation IP pour le poste client.</p>
+                </article>
+
+                <article class="host-card" role="listitem">
+                    <p class="host-name">glpi</p>
+                    <p class="host-ip">192.168.50.20</p>
+                    <p class="host-os">Debian 13</p>
+                    <p class="host-role">Ticketing, gestion de parc et synchronisation LDAPS.</p>
+                </article>
+
+                <article class="host-card" role="listitem">
+                    <p class="host-name">zabbix</p>
+                    <p class="host-ip">192.168.50.30</p>
+                    <p class="host-os">Debian 13</p>
+                    <p class="host-role">Supervision des services LAN et du serveur DMZ.</p>
+                </article>
+
+                <article class="host-card" role="listitem">
+                    <p class="host-name">intranet</p>
+                    <p class="host-ip">192.168.50.40</p>
+                    <p class="host-os">Debian 13</p>
+                    <p class="host-role">Portail web interne accessible seulement sur le LAN.</p>
+                </article>
+
+                <article class="host-card" role="listitem">
+                    <p class="host-name">web-dmz</p>
+                    <p class="host-ip">192.168.60.10</p>
+                    <p class="host-os">Debian 13</p>
+                    <p class="host-role">Site public publi&eacute; depuis la DMZ via pfSense.</p>
+                </article>
+
+                <article class="host-card" role="listitem">
+                    <p class="host-name">C1-Win</p>
+                    <p class="host-ip">192.168.50.100</p>
+                    <p class="host-os">Windows 10 Pro</p>
+                    <p class="host-role">Poste de validation des services AD, GPO, GLPI, partages et agent Zabbix.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <p class="about-brief">&Eacute;tudiant BTS SIO SISR, orient&eacute; administration des syst&egrave;mes et des r&eacute;seaux, avec un int&eacute;r&ecirc;t fort pour la cybers&eacute;curit&eacute;.</p>
+            <nav class="footer-navbar" aria-label="Navigation rapide">
+                <div class="footer-links" role="list">
+                    <a href="../index.html">Accueil</a>
+                    <a href="presentation.html">Ma pr&eacute;sentation</a>
+                    <a href="epreuves.html">Epreuve BTS</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <button class="mentions-trigger footer-mentions" aria-label="Ouvrir les mentions l&eacute;gales">
+                    Mentions l&eacute;gales
+                </button>
+            </nav>
+            <div class="copyright">&copy; 2026 Alessandro Fuentes</div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js" defer></script>
+</body>
+</html>
