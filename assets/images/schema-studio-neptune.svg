@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1120" role="img" aria-labelledby="title desc">
+  <title id="title">Studio Neptune — Schéma d'infrastructure</title>
+  <desc id="desc">Schéma d'infrastructure Studio Neptune avec WAN, pfSense, DMZ, front web, services LAN et accès d'administration sécurisé.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1800" y2="1120" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#0d1830"/>
+    </linearGradient>
+    <linearGradient id="core" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#152749"/>
+      <stop offset="1" stop-color="#0f1b33"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="20" stdDeviation="18" flood-color="#02050c" flood-opacity="0.34"/>
+    </filter>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="8.4" refY="5" markerWidth="6.2" markerHeight="6.2" orient="auto-start-reverse">
+      <path d="M0 1L9.4 5L0 9Z" fill="#8ea7ff"/>
+    </marker>
+    <marker id="arrowGold" viewBox="0 0 10 10" refX="8.4" refY="5" markerWidth="6.2" markerHeight="6.2" orient="auto-start-reverse">
+      <path d="M0 1L9.4 5L0 9Z" fill="#ffc978"/>
+    </marker>
+    <style>
+      text { font-family: "Segoe UI", Arial, sans-serif; }
+      .title { fill: #f4f7ff; font-size: 39px; font-weight: 700; }
+      .subtitle { fill: #9fb0d6; font-size: 20px; }
+      .legend { fill: #ffe7b6; font-size: 16px; font-weight: 700; }
+      .zone-title { fill: #f4f7ff; font-size: 24px; font-weight: 700; }
+      .zone-label { fill: #95abd8; font-size: 17px; }
+      .node-title { fill: #f8fbff; font-size: 20px; font-weight: 700; }
+      .node-text { fill: #dbe4fb; font-size: 15px; }
+      .muted { fill: #9fb0d6; font-size: 15px; }
+      .badge { fill: #f8fbff; font-size: 16px; font-weight: 700; }
+      .small { fill: #dbe4fb; font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+      .zone { fill: rgba(16, 30, 54, 0.46); stroke-width: 2; stroke-dasharray: 10 10; }
+      .flow { fill: none; stroke: #8ea7ff; stroke-width: 3.1; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrowBlue); }
+      .flow-dashed { fill: none; stroke: #ffc978; stroke-width: 3.1; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 9 9; marker-end: url(#arrowGold); }
+    </style>
+  </defs>
+
+  <rect width="1800" height="1120" fill="url(#bg)"/>
+  <rect x="36" y="36" width="1728" height="1048" rx="34" fill="none" stroke="#223250" stroke-width="2"/>
+
+  <text class="title" x="92" y="110">Studio Neptune — Schéma d'infrastructure</text>
+  <text class="subtitle" x="92" y="148">Épreuve du BTS SIO option SISR</text>
+
+  <rect x="1452" y="80" width="252" height="40" rx="14" fill="#2c2845" stroke="#6a83ff" stroke-width="1.4"/>
+  <text class="legend" x="1578" y="105" text-anchor="middle">Flux principaux</text>
+
+  <rect x="686" y="182" width="428" height="92" rx="24" fill="url(#core)" stroke="#5c87ff" stroke-width="2.5" filter="url(#shadow)"/>
+  <text class="node-title" x="900" y="220" text-anchor="middle">WAN / Internet</text>
+  <text class="node-text" x="900" y="252" text-anchor="middle">NAT VirtualBox, publication web et accès VPN</text>
+
+  <path class="flow" d="M900 276V330"/>
+
+  <rect x="720" y="334" width="360" height="112" rx="26" fill="#5d2d13" stroke="#ff9e66" stroke-width="2.5" filter="url(#shadow)"/>
+  <text class="node-title" x="900" y="381" text-anchor="middle">pfSense</text>
+  <text class="node-text" x="900" y="414" text-anchor="middle">Routage, NAT, filtrage, OpenVPN</text>
+
+  <rect x="1298" y="278" width="416" height="166" rx="26" fill="#3c3219" stroke="#ffc672" stroke-width="2.5" filter="url(#shadow)"/>
+  <text class="small" x="1338" y="315">Accès d'administration</text>
+  <text class="node-title" x="1506" y="356" text-anchor="middle">Chaîne d'authentification</text>
+  <text class="node-text" x="1506" y="390" text-anchor="middle">OpenVPN → FreeRADIUS → LDAPS</text>
+  <text class="node-text" x="1506" y="421" text-anchor="middle">Validation finale par groupe Active Directory</text>
+
+  <path class="flow" d="M792 446V490H290V522"/>
+  <path class="flow" d="M900 446V522"/>
+  <path class="flow" d="M1008 446V490H1435V522"/>
+
+  <rect class="zone" x="76" y="522" width="430" height="420" rx="30" stroke="#ff9370"/>
+  <text class="zone-title" x="114" y="572">DMZ</text>
+  <text class="zone-label" x="114" y="604">172.16.0.0/24 — exposition du trafic public</text>
+  <rect x="158" y="660" width="266" height="132" rx="24" fill="#4f2231" stroke="#ff9370" stroke-width="2.2"/>
+  <text class="node-title" x="291" y="712" text-anchor="middle">HAProxy</text>
+  <text class="node-text" x="291" y="745" text-anchor="middle">HTTPS, redirection et répartition</text>
+  <text class="muted" x="291" y="775" text-anchor="middle">point d'entrée vers le front web</text>
+
+  <rect class="zone" x="548" y="522" width="530" height="420" rx="30" stroke="#7d8dff"/>
+  <text class="zone-title" x="586" y="572">Front web</text>
+  <text class="zone-label" x="586" y="604">192.168.1.0/24 — publication web redondée</text>
+  <rect x="632" y="650" width="168" height="118" rx="22" fill="#2d3464" stroke="#a2acff" stroke-width="2"/>
+  <text class="node-title" x="716" y="700" text-anchor="middle">www1</text>
+  <text class="node-text" x="716" y="732" text-anchor="middle">Apache / PHP</text>
+  <rect x="826" y="650" width="168" height="118" rx="22" fill="#2d3464" stroke="#a2acff" stroke-width="2"/>
+  <text class="node-title" x="910" y="700" text-anchor="middle">www2</text>
+  <text class="node-text" x="910" y="732" text-anchor="middle">Apache / PHP</text>
+  <rect x="632" y="812" width="362" height="54" rx="18" fill="#121d36" stroke="#7d8dff" stroke-width="1.6"/>
+  <text class="node-text" x="813" y="846" text-anchor="middle">MariaDB master / master — base neptune_db</text>
+
+  <rect class="zone" x="1120" y="522" width="604" height="420" rx="30" stroke="#63d1b5"/>
+  <text class="zone-title" x="1158" y="572">LAN</text>
+  <text class="zone-label" x="1158" y="604">192.168.2.0/24 — services internes et postes</text>
+  <rect x="1204" y="646" width="164" height="112" rx="22" fill="#123d52" stroke="#63d1b5" stroke-width="2"/>
+  <text class="node-title" x="1286" y="693" text-anchor="middle">srvAD</text>
+  <text class="node-text" x="1286" y="726" text-anchor="middle">AD, DNS, DHCP</text>
+  <rect x="1386" y="646" width="164" height="112" rx="22" fill="#123d52" stroke="#63d1b5" stroke-width="2"/>
+  <text class="node-title" x="1468" y="693" text-anchor="middle">Mail</text>
+  <text class="node-text" x="1468" y="726" text-anchor="middle">Postfix / Dovecot</text>
+  <rect x="1568" y="646" width="120" height="112" rx="22" fill="#123d52" stroke="#63d1b5" stroke-width="2"/>
+  <text class="node-title" x="1628" y="693" text-anchor="middle">Zabbix</text>
+  <text class="node-text" x="1628" y="726" text-anchor="middle">Supervision</text>
+  <rect x="1260" y="804" width="186" height="112" rx="22" fill="#123d52" stroke="#63d1b5" stroke-width="2"/>
+  <text class="node-title" x="1353" y="851" text-anchor="middle">FreeRADIUS</text>
+  <text class="node-text" x="1353" y="884" text-anchor="middle">Pont LDAPS vers l'AD</text>
+  <rect x="1474" y="804" width="214" height="112" rx="22" fill="#123d52" stroke="#63d1b5" stroke-width="2"/>
+  <text class="node-title" x="1581" y="851" text-anchor="middle">Postes clients</text>
+  <text class="node-text" x="1581" y="884" text-anchor="middle">Windows 10 / 11 du domaine</text>
+
+  <path class="flow-dashed" d="M1666 444V500H1702V936H1353V916"/>
+
+  <rect x="138" y="996" width="1524" height="46" rx="16" fill="#111c33" stroke="#30446e" stroke-width="1.4"/>
+  <text class="badge" x="900" y="1025" text-anchor="middle">Synthèse d'architecture : WAN, pare-feu central, zones réseau et accès d'administration.</text>
+</svg>

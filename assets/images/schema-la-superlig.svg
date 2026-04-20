@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1280" role="img" aria-labelledby="title desc">
+  <title id="title">La Superlig — Schéma d'infrastructure</title>
+  <desc id="desc">Schéma d'infrastructure La Superlig avec WAN, cluster pfSense, LAN central, DMZ, VPN IPsec et site déporté de Haguenau.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1800" y2="1280" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#0d1730"/>
+    </linearGradient>
+    <linearGradient id="core" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#152749"/>
+      <stop offset="1" stop-color="#0f1b33"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="20" stdDeviation="18" flood-color="#02050c" flood-opacity="0.34"/>
+    </filter>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="8.4" refY="5" markerWidth="6.2" markerHeight="6.2" orient="auto-start-reverse">
+      <path d="M0 1L9.4 5L0 9Z" fill="#8ea7ff"/>
+    </marker>
+    <marker id="arrowViolet" viewBox="0 0 10 10" refX="8.4" refY="5" markerWidth="6.2" markerHeight="6.2" orient="auto-start-reverse">
+      <path d="M0 1L9.4 5L0 9Z" fill="#b19dff"/>
+    </marker>
+    <style>
+      text { font-family: "Segoe UI", Arial, sans-serif; }
+      .title { fill: #f4f7ff; font-size: 39px; font-weight: 700; }
+      .subtitle { fill: #9fb0d6; font-size: 20px; }
+      .ribbon { fill: #ffe7b6; font-size: 15px; font-weight: 700; }
+      .zone-title { fill: #f4f7ff; font-size: 24px; font-weight: 700; }
+      .zone-label { fill: #95abd8; font-size: 17px; }
+      .node-title { fill: #f8fbff; font-size: 20px; font-weight: 700; }
+      .node-text { fill: #dbe4fb; font-size: 15px; }
+      .muted { fill: #9fb0d6; font-size: 15px; }
+      .small { fill: #dbe4fb; font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+      .zone { fill: rgba(16, 30, 54, 0.46); stroke-width: 2; stroke-dasharray: 10 10; }
+      .flow { fill: none; stroke: #8ea7ff; stroke-width: 3.1; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrowBlue); }
+      .flow-vpn { fill: none; stroke: #b19dff; stroke-width: 3.1; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrowViolet); }
+      .sync { fill: none; stroke: #c6cad3; stroke-width: 2.4; stroke-dasharray: 9 9; stroke-linecap: round; }
+    </style>
+  </defs>
+
+  <rect width="1800" height="1280" fill="url(#bg)"/>
+  <rect x="36" y="36" width="1728" height="1208" rx="34" fill="none" stroke="#223250" stroke-width="2"/>
+
+  <text class="title" x="92" y="110">La Superlig — Schéma d'infrastructure</text>
+  <text class="subtitle" x="92" y="148">Épreuve du BTS SIO option SISR</text>
+
+  <rect x="1326" y="80" width="378" height="40" rx="16" fill="#3f3219" stroke="#ffc672" stroke-width="1.6"/>
+  <text class="ribbon" x="1515" y="105" text-anchor="middle">Extension demandée : site de Haguenau</text>
+
+  <rect x="694" y="184" width="412" height="90" rx="24" fill="url(#core)" stroke="#5c87ff" stroke-width="2.5" filter="url(#shadow)"/>
+  <text class="node-title" x="900" y="221" text-anchor="middle">WAN — réseau lycée</text>
+  <text class="node-text" x="900" y="253" text-anchor="middle">DHCP et simulation de l'accès Internet</text>
+
+  <path class="flow" d="M900 276V330"/>
+
+  <rect x="472" y="336" width="378" height="120" rx="26" fill="#5d2d13" stroke="#ff9e66" stroke-width="2.5" filter="url(#shadow)"/>
+  <text class="small" x="512" y="374">Haute disponibilité</text>
+  <text class="node-title" x="661" y="410" text-anchor="middle">pfSense MASTER</text>
+  <text class="node-text" x="661" y="444" text-anchor="middle">LAN .254, DMZ .254, NAT et filtrage</text>
+
+  <rect x="944" y="336" width="306" height="120" rx="26" fill="#373b46" stroke="#adb5c7" stroke-width="2.2" filter="url(#shadow)"/>
+  <text class="node-title" x="1097" y="410" text-anchor="middle">pfSense BACKUP</text>
+  <text class="node-text" x="1097" y="444" text-anchor="middle">CARP, XMLRPC, pfsync</text>
+
+  <path class="sync" d="M850 396H944"/>
+  <text class="muted" x="897" y="372" text-anchor="middle">pfsync</text>
+
+  <rect x="536" y="494" width="730" height="48" rx="16" fill="#121d36" stroke="#87b67c" stroke-width="1.5"/>
+  <text class="node-text" x="901" y="525" text-anchor="middle">VIP CARP — passerelle LAN et DMZ</text>
+
+  <path class="flow" d="M661 456V520H570V552"/>
+  <path class="flow" d="M901 542V552"/>
+  <path class="flow" d="M1097 456V520H1420V552"/>
+
+  <rect class="zone" x="80" y="552" width="1004" height="430" rx="30" stroke="#63d1b5"/>
+  <text class="zone-title" x="118" y="604">Site central — LAN</text>
+  <text class="zone-label" x="118" y="636">Services internes, annuaire, supervision, intranet et postes du domaine</text>
+  <rect x="138" y="686" width="214" height="114" rx="22" fill="#154b67" stroke="#63d1b5" stroke-width="2"/>
+  <text class="node-title" x="245" y="734" text-anchor="middle">srvAD</text>
+  <text class="node-text" x="245" y="767" text-anchor="middle">AD DS, DNS, AD CS</text>
+  <rect x="388" y="686" width="214" height="114" rx="22" fill="#154b67" stroke="#63d1b5" stroke-width="2"/>
+  <text class="node-title" x="495" y="734" text-anchor="middle">srvDHCP</text>
+  <text class="node-text" x="495" y="767" text-anchor="middle">Adressage LAN</text>
+  <rect x="638" y="686" width="214" height="114" rx="22" fill="#433e8f" stroke="#a2acff" stroke-width="2"/>
+  <text class="node-title" x="745" y="734" text-anchor="middle">GLPI</text>
+  <text class="node-text" x="745" y="767" text-anchor="middle">Parc et ticketing via LDAPS</text>
+  <rect x="138" y="836" width="214" height="114" rx="22" fill="#154b67" stroke="#63d1b5" stroke-width="2"/>
+  <text class="node-title" x="245" y="884" text-anchor="middle">Intranet</text>
+  <text class="node-text" x="245" y="917" text-anchor="middle">Accessible uniquement depuis le LAN</text>
+  <rect x="388" y="836" width="214" height="114" rx="22" fill="#81500f" stroke="#ffcc74" stroke-width="2"/>
+  <text class="node-title" x="495" y="884" text-anchor="middle">Zabbix</text>
+  <text class="node-text" x="495" y="917" text-anchor="middle">Supervision LAN et DMZ</text>
+  <rect x="638" y="836" width="214" height="114" rx="22" fill="#4a4e58" stroke="#b9c0d0" stroke-width="2"/>
+  <text class="node-title" x="745" y="884" text-anchor="middle">C1-Win</text>
+  <text class="node-text" x="745" y="917" text-anchor="middle">Poste client du domaine</text>
+  <rect x="888" y="724" width="138" height="188" rx="22" fill="#12223d" stroke="#6ba3ff" stroke-width="1.8"/>
+  <text class="node-title" x="957" y="774" text-anchor="middle">NTFS</text>
+  <text class="muted" x="957" y="812" text-anchor="middle">Direction</text>
+  <text class="muted" x="957" y="840" text-anchor="middle">Compétition</text>
+  <text class="muted" x="957" y="868" text-anchor="middle">Administratif</text>
+  <text class="muted" x="957" y="896" text-anchor="middle">Public</text>
+
+  <rect class="zone" x="1124" y="552" width="600" height="430" rx="30" stroke="#ff9370"/>
+  <text class="zone-title" x="1162" y="604">DMZ — 192.168.60.0/24</text>
+  <text class="zone-label" x="1162" y="636">Publication du site public et séparation stricte du LAN</text>
+  <rect x="1262" y="710" width="322" height="128" rx="24" fill="#5d2d13" stroke="#ff9370" stroke-width="2.2"/>
+  <text class="node-title" x="1423" y="762" text-anchor="middle">web-dmz</text>
+  <text class="node-text" x="1423" y="796" text-anchor="middle">www.superlig.lan — Apache — Debian 13</text>
+  <rect x="1230" y="866" width="386" height="48" rx="16" fill="#1a1623" stroke="#ff9370" stroke-width="1.2"/>
+  <text class="node-text" x="1423" y="897" text-anchor="middle">Blocage prioritaire des flux DMZ → LAN</text>
+
+  <path class="flow-vpn" d="M900 982V1026"/>
+
+  <rect x="500" y="1028" width="800" height="84" rx="22" fill="#1d1d4b" stroke="#8b78ff" stroke-width="2.4" filter="url(#shadow)"/>
+  <text class="node-title" x="900" y="1072" text-anchor="middle">VPN IPsec site-à-site</text>
+  <text class="node-text" x="900" y="1104" text-anchor="middle">Strasbourg ↔ Haguenau — PSK, AES-256, SHA-256</text>
+
+  <path class="flow-vpn" d="M900 1112V1144"/>
+
+  <rect class="zone" x="194" y="1144" width="1412" height="100" rx="26" stroke="#87b67c"/>
+  <text class="zone-title" x="232" y="1184">Site déporté de Haguenau — LAN</text>
+  <rect x="240" y="1194" width="266" height="38" rx="14" fill="#5d2d13" stroke="#ff9e66" stroke-width="2"/>
+  <text class="node-title" x="373" y="1219" text-anchor="middle">pfSense-HAG</text>
+  <rect x="558" y="1194" width="302" height="38" rx="14" fill="#154b67" stroke="#63d1b5" stroke-width="2"/>
+  <text class="node-title" x="709" y="1219" text-anchor="middle">srvDHCP-HAG</text>
+  <rect x="912" y="1194" width="266" height="38" rx="14" fill="#4a4e58" stroke="#b9c0d0" stroke-width="2"/>
+  <text class="node-title" x="1045" y="1219" text-anchor="middle">C2-Win</text>
+  <rect x="1230" y="1194" width="322" height="38" rx="14" fill="#3c3219" stroke="#ffc672" stroke-width="2"/>
+  <text class="node-title" x="1391" y="1219" text-anchor="middle">Supervision Zabbix via tunnel</text>
+</svg>
